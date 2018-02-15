@@ -7,7 +7,7 @@ from SunFounder_PiCar import back_wheels
 
 import SunFounder_PiCar
 
-picar.setup()
+SunFounder_PiCar.setup()
 
 fw = front_wheels.Front_Wheels(db='config')
 bw = back_wheels.Back_Wheels(db='config')
@@ -19,7 +19,7 @@ backward_speed = 70
 def callback(twist):
    # rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.data)
     rospy.loginfo(rospy.get_caller_id() + "I heard Twist %s", twist)
-    
+
 def picar_controller():
 
     # In ROS, nodes are uniquely named. If two nodes with the same
@@ -36,13 +36,13 @@ def picar_controller():
 
 def stop():
     rospy.loginfo("STOP")
-	bw.stop()
-	fw.turn_straight()
+    bw.stop()
+    fw.turn_straight()
 
 if __name__ == '__main__':
     try:
-	    picar_controller()
-    except rospy.ROSInterruptException: 
-	    stop()
-	    pass
+	picar_controller()
+    except rospy.ROSInterruptException:
+	stop()
+	pass
 
