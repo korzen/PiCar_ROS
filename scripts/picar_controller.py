@@ -6,6 +6,7 @@ from SunFounder_PiCar import front_wheels
 from SunFounder_PiCar import back_wheels
 
 import SunFounder_PiCar
+import time
 
 SunFounder_PiCar.setup()
 
@@ -16,9 +17,25 @@ fw.turning_max = 45
 forward_speed = 70
 backward_speed = 70
 
-def callback(twist):
-   # rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.data)
-    rospy.loginfo(rospy.get_caller_id() + "I heard Twist %s", twist)
+def callback(msg):
+
+    rospy.loginfo(rospy.get_caller_id() + "Twist %s", msg)
+
+    if(msg.linear.x > 0):
+	bw.forward()
+	bw.speed = 50
+    elif(msg.linear.x < 0):
+	bw.backward()
+	bw.speed = 40
+    else:
+	bw.stop()
+
+    if(msg.angular.z > 0):
+	fw.turn_left()
+    elif(msg.angular.z < 0):
+	fw.turn_right()
+    else:
+	fw.turn_straight()
 
 def picar_controller():
 
@@ -42,7 +59,11 @@ def stop():
 if __name__ == '__main__':
     try:
 	picar_controller()
+    except KeyboardInterrupt:
+        print "KeyboardInterrupt, motor stop"
+        stop()
     except rospy.ROSInterruptException:
 	stop()
 	pass
-
+    finally:
+	stop()
