@@ -7,33 +7,32 @@ from SunFounder_PiCar import back_wheels
 
 import SunFounder_PiCar
 import time
+import math
 
 SunFounder_PiCar.setup()
 
 fw = front_wheels.Front_Wheels(db='config')
 bw = back_wheels.Back_Wheels(db='config')
-fw.turning_max = 45
+fw.turning_max = 30
 
-forward_speed = 70
-backward_speed = 70
+forward_speed = 50
+backward_speed = 50
 
 def callback(msg):
 
     rospy.loginfo(rospy.get_caller_id() + "Twist %s", msg)
 
-    if(msg.linear.x > 0):
+    if(msg.linear.x > 0.1):
 	bw.forward()
-	bw.speed = 50
-    elif(msg.linear.x < 0):
+	bw.speed = int(100 * msg.linear.x)
+    elif(msg.linear.x < -0.1):
 	bw.backward()
-	bw.speed = 40
+	bw.speed = int(100 * -msg.linear.x)
     else:
 	bw.stop()
 
-    if(msg.angular.z > 0):
-	fw.turn_left()
-    elif(msg.angular.z < 0):
-	fw.turn_right()
+    if(msg.angular.z > 0.1 or msg.angular.z < -0.1):
+	fw.turn( int(90 - 20 * msg.angular.z) )
     else:
 	fw.turn_straight()
 
