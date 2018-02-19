@@ -1,0 +1,10 @@
+<launch>
+  <node name="picar_node" pkg="picar_ros" type="picar_controller.py" output="screen">
+    <param name="engine_id" value="0"/>
+    <param name="steering_servo_id" value="1" />
+    <param name="steering_servo_right_limit" value="775" />    
+    <param name="steering_servo_left_limit" value="475" />
+    <param name="reversing_timeout" value="1.0" />
+    <param name="esc_reverse_mode_timeout" value="0.094" />
+  </node>
+</launch>

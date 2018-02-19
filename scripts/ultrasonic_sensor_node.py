@@ -44,7 +44,7 @@ def ultrasonic():
     while not rospy.is_shutdown():
         range_msg = Range()
         range_msg.radiation_type = Range.ULTRASOUND;
-        range_msg.header.frame_id =  'range_frame';
+        range_msg.header.frame_id =  'ultrasound_frame';
         range_msg.header.stamp =  rospy.Time.now();
         range_msg.field_of_view = 0.1; 
         range_msg.min_range = 5.0;
